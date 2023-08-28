@@ -2,7 +2,7 @@ name: Go package
 on: [push]
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Set up Go
@@ -13,5 +13,8 @@ jobs:
         run: go build
       - name: Test
         run: go test
+  deploy:
+    runs-on: self-hosted
+    steps:
       - name: Run
         run: go run .
