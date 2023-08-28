@@ -1,0 +1,175 @@
+basePath: /api/v1
+consumes:
+    - application/json
+definitions:
+    DeletedAt:
+        $ref: '#/definitions/NullTime'
+    Habit:
+        properties:
+            CreatedAt:
+                format: date-time
+                type: string
+            DeletedAt:
+                $ref: '#/definitions/DeletedAt'
+            ID:
+                format: uint64
+                type: integer
+            UpdatedAt:
+                format: date-time
+                type: string
+            description:
+                type: string
+                x-go-name: Description
+            habit_logs:
+                items:
+                    $ref: '#/definitions/HabitLog'
+                type: array
+                x-go-name: HabitLogs
+            name:
+                type: string
+                x-go-name: Name
+            time_table:
+                type: string
+                x-go-name: TimeTable
+            time_type:
+                type: string
+                x-go-name: TimeType
+        type: object
+        x-go-package: github.com/averrows/apis/core/models
+    HabitLog:
+        properties:
+            CreatedAt:
+                format: date-time
+                type: string
+            DeletedAt:
+                $ref: '#/definitions/DeletedAt'
+            HabitID:
+                format: uint64
+                type: integer
+            ID:
+                format: uint64
+                type: integer
+            UpdatedAt:
+                format: date-time
+                type: string
+        type: object
+        x-go-package: github.com/averrows/apis/core/models
+    Model:
+        description: |-
+            type User struct {
+            gorm.Model
+            }
+        properties:
+            CreatedAt:
+                format: date-time
+                type: string
+            DeletedAt:
+                $ref: '#/definitions/DeletedAt'
+            ID:
+                format: uint64
+                type: integer
+            UpdatedAt:
+                format: date-time
+                type: string
+        title: |-
+            Model a basic GoLang struct which includes the following fields: ID, CreatedAt, UpdatedAt, DeletedAt
+            It may be embedded into your model or you may build your own model without it
+        type: object
+        x-go-package: gorm.io/gorm
+    NullTime:
+        description: |-
+            NullTime implements the Scanner interface so
+            it can be used as a scan destination, similar to NullString.
+        properties:
+            Time:
+                format: date-time
+                type: string
+            Valid:
+                type: boolean
+        title: NullTime represents a time.Time that may be null.
+        type: object
+        x-go-package: database/sql
+    SwaggerHabitResponse:
+        properties:
+            data:
+                items:
+                    $ref: '#/definitions/Habit'
+                type: array
+                x-go-name: Data
+            message:
+                type: string
+                x-go-name: Message
+        type: object
+        x-go-package: github.com/averrows/apis/handlers/swagger
+info:
+    title: 'Product Api:'
+    version: "0.1"
+paths:
+    /habits:
+        get:
+            description: Get Habits
+            operationId: GetHabits
+            parameters:
+                - description: id of habit
+                  format: int64
+                  in: query
+                  name: id
+                  type: integer
+            produces:
+                - application/json
+            responses:
+                "200":
+                    description: ""
+            tags:
+                - Habits
+        post:
+            description: Create Habit
+            operationId: PostHabit
+            parameters:
+                - description: habit to create
+                  in: body
+                  name: habit
+                  required: true
+                  schema:
+                    $ref: '#/definitions/Habit'
+            responses:
+                "200":
+                    description: ""
+            tags:
+                - Habits
+    /habits/log:
+        post:
+            description: Create Habit
+            operationId: LogHabit
+            parameters:
+                - description: habit to create
+                  in: body
+                  name: habit
+                  required: true
+                  schema:
+                    $ref: '#/definitions/Habit'
+            responses:
+                "200":
+                    description: ""
+            tags:
+                - Habits
+produces:
+    - application/json
+responses:
+    Response:
+        description: ""
+        headers:
+            data: {}
+            message:
+                type: string
+        schema: {}
+    habitResponse:
+        description: ""
+        headers:
+            Body: {}
+        schema:
+            $ref: '#/definitions/SwaggerHabitResponse'
+schemes:
+    - http
+    - https
+swagger: "2.0"
