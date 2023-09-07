@@ -44,7 +44,7 @@ func main() {
 	router.GET("/docs", gin.WrapH(sh))
 	router.Use(CORSMiddleware())
 
-	apiV1 := router.Group("/api/v1")
+	apiV1 := router.Group("/v1")
 	// swagger:operation GET /habits Habits GetHabits
 	// Get Habits
 	//
